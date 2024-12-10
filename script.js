@@ -6,6 +6,20 @@ const temperatureSlider = document.getElementById("temperatureSlider");
 const temperatureValue = document.getElementById("temperatureValue");
 const radioButtons = document.getElementsByName("colorType");
 
+const setRadioType = (type) => {
+  radioButtons.forEach((radio) => {
+    radio.checked = radio.value === type;
+  });
+};
+
+const handleInputChange = (type) => {
+  if (type === "temperature") {
+    temperatureValue.textContent = `${temperatureSlider.value}K`;
+  }
+  setRadioType(type);
+  updateColor();
+};
+
 const updateColor = () => {
   let selectedType;
   for (const radio of radioButtons) {
@@ -26,37 +40,40 @@ const updateColor = () => {
   }
 
   document.documentElement.style.setProperty("--page-background", newColor);
-};
 
-optionsButton.onclick = () => {
-  modal.showModal();
-};
-
-closeButton.onclick = () => {
-  modal.close();
-};
-
-modal.addEventListener("click", (event) => {
-  if (event.target === modal) {
-    modal.close();
+  const url = new URL(window.location);
+  if (selectedType === "custom") {
+    url.searchParams.set("color", newColor);
+    url.searchParams.delete("temperature");
+  } else {
+    url.searchParams.set("temperature", temperatureSlider.value);
+    url.searchParams.delete("color");
   }
-});
-
-temperatureSlider.oninput = () => {
-  temperatureValue.textContent = `${temperatureSlider.value}K`;
-  radioButtons.forEach((radio) => {
-    radio.checked = radio.value === "temperature";
-  });
-  updateColor();
+  window.history.replaceState({}, "", url);
 };
 
-colorPicker.addEventListener("input", () => {
-  radioButtons.forEach((radio) => {
-    radio.checked = radio.value === "custom";
-  });
-  updateColor();
+const url = new URL(window.location);
+const savedColor = url.searchParams.get("color");
+const savedTemperature = url.searchParams.get("temperature");
+
+if (savedColor) {
+  colorPicker.value = savedColor;
+  handleInputChange("custom");
+} else if (savedTemperature) {
+  temperatureSlider.value = savedTemperature;
+  handleInputChange("temperature");
+}
+
+optionsButton.addEventListener("click", () => modal.showModal());
+closeButton.addEventListener("click", () => modal.close());
+modal.addEventListener("click", (event) => {
+  if (event.target === modal) modal.close();
 });
 
+temperatureSlider.addEventListener("input", () =>
+  handleInputChange("temperature"),
+);
+colorPicker.addEventListener("input", () => handleInputChange("custom"));
 radioButtons.forEach((radio) => {
   radio.addEventListener("change", updateColor);
 });
@@ -64,7 +81,6 @@ radioButtons.forEach((radio) => {
 // Convert color temperature to RGB, based on https://tannerhelland.com/2012/09/18/convert-temperature-rgb-algorithm-code.html
 function temperatureToRGB(temperature) {
   temperature = temperature / 100;
-
   let red, green, blue;
 
   // Calculate Red
