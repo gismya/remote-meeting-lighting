@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Remote meeting lighting</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <button id="optionsButton" aria-label="Open settings">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+        <g
+          fill="none"
+          stroke="#000"
+          stroke-miterlimit="10"
+          stroke-width="1.5"
+          transform="translate(2 3)"
+        >
+          <circle cx="10" cy="9" r="2.5" />
+          <path
+            d="m5.3 16.8.1-3.2H2.2a9 9 0 0 1-1-2.4L3.4 9 1.1 6.8a9 9 0 0 1 1-2.5l3.3.1V1.2a9 9 0 0 1 2.4-1L10 2.4 12.2.1a9 9 0 0 1 2.5 1l-.1 3.3h3.2a9 9 0 0 1 1 2.4L16.6 9l2.4 2.2a9 9 0 0 1-1 2.5l-3.3-.1v3.2a9 9 0 0 1-2.4 1L10 15.6l-2.2 2.4a9 9 0 0 1-2.5-1Z"
+          />
+        </g>
+      </svg>
+    </button>
+
+    <dialog id="settingsModal">
+      <form method="dialog">
+        <h2>Color Settings</h2>
+
+        <fieldset>
+          <label>
+            <input type="radio" name="colorType" value="custom" checked />
+            Custom Color
+          </label>
+          <input type="color" id="colorPicker" value="#ffffff" />
+        </fieldset>
+
+        <fieldset>
+          <label>
+            <input type="radio" name="colorType" value="temperature" />
+            Color Temperature
+          </label>
+          <input
+            type="range"
+            id="temperatureSlider"
+            min="2000"
+            max="10000"
+            value="6500"
+          />
+          <output id="temperatureValue" for="temperatureSlider">6500K</output>
+        </fieldset>
+
+        <button type="button" id="closeButton">Close</button>
+      </form>
+    </dialog>
+
+    <script src="script.js"></script>
+  </body>
+</html>
