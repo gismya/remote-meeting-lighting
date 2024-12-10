@@ -1,16 +1,23 @@
 body {
   background-color: var(--page-background, #ffffff);
+  font-family: -apple-system, "system-ui", "Segoe UI", "Noto Sans", Helvetica,
+    Arial, sans-serif;
 }
 
 #optionsButton {
   padding: 20px;
   font-size: 20px;
-  background: transparent;
-  border: none;
+}
+
+h2 {
+  margin: 0.5em 0 1em;
 }
 
 dialog {
   border: none;
+  padding: 0 5px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
 }
 
 dialog::backdrop {
@@ -32,8 +39,26 @@ fieldset {
 input {
   margin-left: 10px;
 }
+[type="radio"] {
+  display: none;
+}
+dialog button {
+  width: 28px;
+  height: 28px;
+  font-weight: bold;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  text-align: center;
+}
+output {
+  margin-left: 10px;
+  width: 8ch;
+}
 
 button {
-  margin: 5px;
-  padding: 5px 10px;
+  all: unset;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
 }
