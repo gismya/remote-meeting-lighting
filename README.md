@@ -1,6 +1,6 @@
 # Remote Meeting Lighting
 
-A simple web tool to help use a spare screen as a light source during remote meetings. Hosted with [github pages](https://gismya.github.io/remote-meeting-lighting/)
+A simple web tool to help use a spare screen as a light source during remote meetings. Hosted with [GitHub pages](https://gismya.github.io/remote-meeting-lighting/)
 
 ## Acknowledgements
 
