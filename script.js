@@ -52,32 +52,6 @@ const updateColor = () => {
   window.history.replaceState({}, "", url);
 };
 
-const url = new URL(window.location);
-const savedColor = url.searchParams.get("color");
-const savedTemperature = url.searchParams.get("temperature");
-
-if (savedColor) {
-  colorPicker.value = savedColor;
-  handleInputChange("custom");
-} else if (savedTemperature) {
-  temperatureSlider.value = savedTemperature;
-  handleInputChange("temperature");
-}
-
-optionsButton.addEventListener("click", () => modal.showModal());
-closeButton.addEventListener("click", () => modal.close());
-modal.addEventListener("click", (event) => {
-  if (event.target === modal) modal.close();
-});
-
-temperatureSlider.addEventListener("input", () =>
-  handleInputChange("temperature"),
-);
-colorPicker.addEventListener("input", () => handleInputChange("custom"));
-radioButtons.forEach((radio) => {
-  radio.addEventListener("change", updateColor);
-});
-
 // Convert color temperature to RGB, based on https://tannerhelland.com/2012/09/18/convert-temperature-rgb-algorithm-code.html
 function temperatureToRGB(temperature) {
   temperature = temperature / 100;
@@ -118,3 +92,31 @@ function temperatureToRGB(temperature) {
 
   return `rgb(${Math.round(red)}, ${Math.round(green)}, ${Math.round(blue)})`;
 }
+// Add event listeners
+optionsButton.addEventListener("click", () => modal.showModal());
+closeButton.addEventListener("click", () => modal.close());
+modal.addEventListener("click", (event) => {
+  if (event.target === modal) modal.close();
+});
+
+temperatureSlider.addEventListener("input", () =>
+  handleInputChange("temperature"),
+);
+colorPicker.addEventListener("input", () => handleInputChange("custom"));
+radioButtons.forEach((radio) => {
+  radio.addEventListener("change", updateColor);
+});
+
+// Update the state on page load
+const url = new URL(window.location);
+const savedColor = url.searchParams.get("color");
+const savedTemperature = url.searchParams.get("temperature");
+
+if (savedColor) {
+  colorPicker.value = savedColor;
+  handleInputChange("custom");
+} else if (savedTemperature) {
+  temperatureSlider.value = savedTemperature;
+  handleInputChange("temperature");
+}
+modal.showModal();
