@@ -1,0 +1,23 @@
+{
+  "name": "Remote Meeting Lighting",
+  "short_name": "Meeting Light",
+  "description": "Control your screen lighting for remote meetings",
+  "start_url": "/remote-meeting-lighting/",
+  "icons": [
+    {
+      "src": "/remote-meeting-lighting/web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/remote-meeting-lighting/web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "theme_color": "#3b3b3b",
+  "background_color": "#1e5486",
+  "display": "standalone"
+}
