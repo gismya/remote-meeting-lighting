@@ -13,9 +13,7 @@ const setRadioType = (type) => {
 };
 
 const handleInputChange = (type) => {
-  if (type === "temperature") {
-    temperatureValue.textContent = `${temperatureSlider.value}K`;
-  }
+  temperatureValue.textContent = `${temperatureSlider.value}K`;
   setRadioType(type);
   updateColor();
 };
@@ -119,7 +117,7 @@ if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker
       .register("/remote-meeting-lighting/sw.js")
-      .then((registration) => {
+      .then(() => {
         console.log("ServiceWorker registration successful");
       })
       .catch((err) => {
