@@ -6,28 +6,35 @@ const temperatureSlider = document.getElementById("temperatureSlider");
 const temperatureValue = document.getElementById("temperatureValue");
 const radioButtons = document.getElementsByName("colorType");
 
-const setRadioType = (type) => {
+function setRadioType(type) {
   radioButtons.forEach((radio) => {
     radio.checked = radio.value === type;
   });
-};
+}
 
-const handleInputChange = (type) => {
+function handleInputChange(type) {
   temperatureValue.textContent = `${temperatureSlider.value}K`;
   setRadioType(type);
   updateColor();
-};
+}
 
-const updateSelectedTypeStyle = (type) => {
+function updateSelectedTypeStyle(type) {
   document.querySelectorAll("label").forEach((label) => {
     label.classList.toggle(
       "selected-type",
       label.querySelector(`input[value="${type}"]`) !== null,
     );
   });
-};
+}
 
-const updateColor = () => {
+function changeColorTemperature(amount) {
+  const currentTemp = parseInt(temperatureSlider.value);
+  const newTemp = Math.min(currentTemp + amount, 10000);
+  temperatureSlider.value = newTemp;
+  handleInputChange("temperature");
+}
+
+function updateColor() {
   let selectedType;
   for (const radio of radioButtons) {
     if (radio.checked) {
@@ -51,7 +58,7 @@ const updateColor = () => {
   }
 
   document.documentElement.style.setProperty("--page-background", newColor);
-};
+}
 
 // Convert color temperature to RGB, based on https://tannerhelland.com/2012/09/18/convert-temperature-rgb-algorithm-code.html
 function temperatureToRGB(temperature) {
@@ -134,3 +141,17 @@ if ("serviceWorker" in navigator) {
       });
   });
 }
+
+//Keyboard shortcuts
+document.addEventListener("keydown", (event) => {
+  if (event.key === "ArrowUp") {
+    changeColorTemperature(100);
+  } else if (event.key === "ArrowDown") {
+    changeColorTemperature(-100);
+  }
+  if (event.key === "ArrowLeft") {
+    changeColorTemperature(-1000);
+  } else if (event.key === "ArrowRight") {
+    changeColorTemperature(1000);
+  }
+});
