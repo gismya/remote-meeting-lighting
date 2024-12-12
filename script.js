@@ -18,6 +18,15 @@ const handleInputChange = (type) => {
   updateColor();
 };
 
+const updateSelectedTypeStyle = (type) => {
+  document.querySelectorAll("label").forEach((label) => {
+    label.classList.toggle(
+      "selected-type",
+      label.querySelector(`input[value="${type}"]`) !== null,
+    );
+  });
+};
+
 const updateColor = () => {
   let selectedType;
   for (const radio of radioButtons) {
@@ -26,7 +35,7 @@ const updateColor = () => {
       break;
     }
   }
-
+  updateSelectedTypeStyle(selectedType);
   let newColor;
   switch (selectedType) {
     case "custom":
@@ -103,13 +112,13 @@ radioButtons.forEach((radio) => {
 const savedColorType = localStorage.getItem("colorType");
 const savedCustomColor = localStorage.getItem("customColor");
 const savedTemperature = localStorage.getItem("temperature");
-colorPicker.value = savedCustomColor;
-temperatureSlider.value = savedTemperature;
+colorPicker.value = savedCustomColor ?? "#ffffff";
+temperatureSlider.value = savedTemperature ?? 6500;
 
-if (savedColorType === "custom" && savedCustomColor) {
-  handleInputChange("custom");
-} else if (savedColorType === "temperature" && savedTemperature) {
+if (savedColorType === "temperature") {
   handleInputChange("temperature");
+} else {
+  handleInputChange("custom");
 }
 modal.showModal();
 
