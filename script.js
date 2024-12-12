@@ -33,23 +33,17 @@ const updateColor = () => {
   switch (selectedType) {
     case "custom":
       newColor = colorPicker.value;
+      localStorage.setItem("colorType", "custom");
+      localStorage.setItem("customColor", newColor);
       break;
     case "temperature":
       newColor = temperatureToRGB(temperatureSlider.value);
+      localStorage.setItem("colorType", "temperature");
+      localStorage.setItem("temperature", temperatureSlider.value);
       break;
   }
 
   document.documentElement.style.setProperty("--page-background", newColor);
-
-  const url = new URL(window.location);
-  if (selectedType === "custom") {
-    url.searchParams.set("color", newColor);
-    url.searchParams.delete("temperature");
-  } else {
-    url.searchParams.set("temperature", temperatureSlider.value);
-    url.searchParams.delete("color");
-  }
-  window.history.replaceState({}, "", url);
 };
 
 // Convert color temperature to RGB, based on https://tannerhelland.com/2012/09/18/convert-temperature-rgb-algorithm-code.html
@@ -108,15 +102,15 @@ radioButtons.forEach((radio) => {
 });
 
 // Update the state on page load
-const url = new URL(window.location);
-const savedColor = url.searchParams.get("color");
-const savedTemperature = url.searchParams.get("temperature");
+const savedColorType = localStorage.getItem("colorType");
+const savedCustomColor = localStorage.getItem("customColor");
+const savedTemperature = localStorage.getItem("temperature");
+colorPicker.value = savedCustomColor;
+temperatureSlider.value = savedTemperature;
 
-if (savedColor) {
-  colorPicker.value = savedColor;
+if (savedColorType === "custom" && savedCustomColor) {
   handleInputChange("custom");
-} else if (savedTemperature) {
-  temperatureSlider.value = savedTemperature;
+} else if (savedColorType === "temperature" && savedTemperature) {
   handleInputChange("temperature");
 }
 modal.showModal();
